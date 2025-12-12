@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     google_client_id: str = "13518453378-t7totj1v60bam93dfvdp9eleapmalar1.apps.googleusercontent.com"
     google_client_secret: str = "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"
     openai
-    _api_key: str = "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"
+    _api_key: str = ""
     gemini_api_key: str = ""
     frontend_url: str = "http://localhost:3000"
     # Disable heavy RAG retrieval (embeddings/vector-store downloads) by default.
