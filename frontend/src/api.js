@@ -1,8 +1,11 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000'
 
 async function request(path, options = {}){
+  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
+  const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) }
+  if (token) headers['Authorization'] = `Bearer ${token}`
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     ...options
   })
   if (!res.ok) {
@@ -32,4 +35,12 @@ export async function getUser(userId){
   return request(`/users/${userId}`)
 }
 
-export default { startSession, askQuestion, listExams, uploadMaterial, getUser }
+export async function registerUser(payload){
+  return request('/auth/register', { method: 'POST', body: JSON.stringify(payload) })
+}
+
+export async function loginUser(payload){
+  return request('/auth/login', { method: 'POST', body: JSON.stringify(payload) })
+}
+
+export default { startSession, askQuestion, listExams, uploadMaterial, getUser, registerUser, loginUser }

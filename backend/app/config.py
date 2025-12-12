@@ -8,8 +8,10 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     google_client_id: str = "13518453378-t7totj1v60bam93dfvdp9eleapmalar1.apps.googleusercontent.com"
     google_client_secret: str = "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"
-    # openai_api_key: str = "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"
+    openai
+    _api_key: str = "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"
     gemini_api_key: str = ""
+    frontend_url: str = "http://localhost:3000"
     # Disable heavy RAG retrieval (embeddings/vector-store downloads) by default.
     enable_rag_retrieval: bool = True
     app_env: str = "development"

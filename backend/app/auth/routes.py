@@ -10,6 +10,8 @@ from app.core.security import create_access_token, hash_password, verify_passwor
 from app.db.session import SessionLocal
 from app.db.models import User
 from app.auth.google_oauth import oauth
+from app.config import settings
+import urllib.parse
 from app.schemas import TokenResponse, HealthResponse, UserCreate, LoginRequest
 
 router = APIRouter()
@@ -72,13 +74,16 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
 
         # Create access token
         access_token = create_access_token({"sub": user.id})
-        
-        return {
-            "access_token": access_token,
-            "token_type": "bearer",
-            "user_id": user.id,
-            "email": user.email
-        }
+
+        # Redirect to frontend callback with token in fragment (not sent to backend logs)
+        fragment = urllib.parse.urlencode({
+            'access_token': access_token,
+            'token_type': 'bearer',
+            'user_id': user.id,
+            'email': user.email
+        })
+        redirect_url = f"{settings.frontend_url}/auth-callback#{fragment}"
+        return RedirectResponse(url=redirect_url)
     
     except Exception as e:
         raise HTTPException(
