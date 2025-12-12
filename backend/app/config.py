@@ -8,8 +8,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     google_client_id: str = "13518453378-t7totj1v60bam93dfvdp9eleapmalar1.apps.googleusercontent.com"
     google_client_secret: str = "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"
-    openai
-    _api_key: str = ""
+    openai_api_key: str = ""
     gemini_api_key: str = ""
     frontend_url: str = "http://localhost:3000"
     # Disable heavy RAG retrieval (embeddings/vector-store downloads) by default.
